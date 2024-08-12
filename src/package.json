@@ -1,0 +1,24 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/typescript-build": "^3.0.2",
+    "@nuxt/typescript-runtime": "^3.0.2",
+    "@pinia/nuxt": "^0.5.3",
+    "@prisma/client": "5.18.0",
+    "@quasar/extras": "^1.16.12",
+    "nuxt": "^3.12.4",
+    "nuxt-quasar-ui": "^2.1.4",
+    "prisma": "^5.18.0",
+    "quasar": "^2.16.8",
+    "vue": "latest"
+  }
+}

@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    user: "${UID}:${GID}"
+    ports:
+      - 5432:5432
+    volumes:
+      - ./docker/pgdata:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    user: "${UID}:${GID}"
+    volumes:
+      - ./src:/src
+    ports:
+    - 3000:3000
+
+networks:
+  default:
+    name: homki
