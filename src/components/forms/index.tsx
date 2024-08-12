@@ -2,7 +2,6 @@ import {defineComponent, ref} from 'vue';
 import type { PropType } from 'vue';
 
 import {Task} from "~/services/models";
-import {TaskApi} from "~/services/task/api";
 
 import {QBtn, QCheckbox, QInput} from "quasar";
 
@@ -12,6 +11,9 @@ export const TaskFormProps = {
         type: Object as PropType<Task>,
         default: new Task()
     },
+    onClick: {
+        type: Function as PropType<(t: Task) => void>,
+    }
 }
 
 export default defineComponent({
@@ -27,14 +29,8 @@ export default defineComponent({
         };
 
         let onClick = () => {
-            if (props.task.id === 0) {
-                TaskApi.add(task.value)
-                    .then((res) => console.log('Added: ', res))
-                    .catch((e) => console.error(e))
-            } else {
-                TaskApi.update(task.value)
-                    .then((res) => console.log('Updated: ', res))
-                    .catch((e) => console.error(e))
+            if (props.onClick) {
+                props.onClick(task.value)
             }
         }
 

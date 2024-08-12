@@ -13,6 +13,7 @@ import {
 } from "quasar";
 
 import MenuDrawer from '~/components/header';
+import TaskTable from '~/components/table';
 import {NuxtLink} from "#components";
 
 
@@ -36,24 +37,8 @@ export default defineComponent({
 
                 <QPageContainer>
                     <h3>Your task list</h3>
-                    {
-                        tasks.value.map((task) => {
-                            return (
-                                <QCard key={task.id} bordered={true}>
-                                    <QCardSection>
-                                        <NuxtLink href={`/task/${task.id}`}>
-                                            {task.title}
-                                        </NuxtLink>
 
-                                        <p>{task.description}</p>
-                                        <p>Status: {task.status ? 'Done' : 'Pending'}</p>
-                                    </QCardSection>
-                                </QCard>
-                            )
-                        })
-                    }
-
-                    <QBtn label={"Text btn"} color={"blue"} dense={true} />
+                    <TaskTable tasks={tasks.value} />
                 </QPageContainer>
             </QLayout>
         )

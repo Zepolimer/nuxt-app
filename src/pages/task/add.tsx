@@ -1,19 +1,21 @@
-import {defineComponent, ref} from 'vue';
+import {defineComponent} from 'vue';
+
+import {Task} from "~/services/models";
+import {TaskApi} from "~/services/task/api";
 
 import {QLayout, QPageContainer} from "quasar";
 import MenuDrawer from "~/components/header";
 import TaskForm from "~/components/forms"
-import {TaskApi} from "~/services/task/api";
-import {Task} from "~/services/models";
+import {useRouter} from "vue-router";
 
 
 export default defineComponent({
     setup() {
-        let task = ref<Task>(new Task())
+        const route = useRouter()
 
-        let onClick = async () => {
-            TaskApi.add(task.value)
-                .then((res) => console.log(res))
+        let onClick = async (t: Task) => {
+            TaskApi.add(t)
+                .then((res) => route.push(`/task/${res.data.id}`) )
                 .catch((e) => console.error(e))
         }
 
@@ -24,7 +26,7 @@ export default defineComponent({
                 <QPageContainer>
                     <h3>Add a new Task</h3>
 
-                    <TaskForm />
+                    <TaskForm onClick={onClick} />
                 </QPageContainer>
             </QLayout>
         )

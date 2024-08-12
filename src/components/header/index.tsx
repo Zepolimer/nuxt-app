@@ -30,14 +30,14 @@ export default defineComponent({
                     <QToolbarTitle>TodoList</QToolbarTitle>
                 </QHeader>
 
-                <QDrawer v-model={toggleDrawer.value} show-if-above>
+                <QDrawer v-model={toggleDrawer.value} show-if-above bordered={true}>
                     <QList>
                         <QItem href={"/"}>
                             <QItemLabel>Todos</QItemLabel>
                         </QItem>
                     </QList>
                     <QList>
-                        <QItem href={"/add"}>
+                        <QItem href={"/task/add"}>
                             <QItemLabel>Add a task</QItemLabel>
                         </QItem>
                     </QList>

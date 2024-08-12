@@ -7,16 +7,18 @@ export default defineEventHandler(async (event) => {
     let eventMethod = event.node.req.method
     let { id } = event.context.params
 
-    if (eventMethod === 'GET') {
-        if (!id || isNaN(id)) {
-            throw createError({
-                statusCode: 400,
-                statusMessage: 'ID is required'
-            })
-        }
+    if (!id) {
+        throw createError({
+            statusCode: 400,
+            statusMessage: 'ID is required'
+        })
+    }
 
+    if (eventMethod === 'GET') {
         let task = await prisma.task.findUnique({
-            where: { id: parseInt(id) }
+            where: {
+                id: parseInt(id)
+            }
         })
 
         if (!task) {
@@ -32,15 +34,28 @@ export default defineEventHandler(async (event) => {
     if (eventMethod === 'PUT') {
         const body = await readBody(event)
 
-        // let task = await prisma.task.upsert({
-        //     data: {
-        //         title: body.title,
-        //         description: body.description || null,
-        //         status: body.status || false,
-        //     }
-        // })
+        let task = await prisma.task.update({
+            where: {
+                id: parseInt(id)
+            },
+            data: {
+                title: body.title,
+                description: body.description || null,
+                status: body.status || false,
+            }
+        })
 
-        // return task
+        return task
+    }
+
+    if (eventMethod === 'DELETE') {
+        let task = await prisma.task.delete({
+            where: {
+                id: parseInt(id)
+            }
+        })
+
+        return task
     }
 
     throw createError({

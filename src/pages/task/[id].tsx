@@ -1,11 +1,12 @@
 import {defineComponent} from 'vue';
 import { useRoute } from 'vue-router';
 
+import {Task} from "~/services/models";
+import {TaskApi} from "~/services/task/api";
+
 import {QLayout, QPageContainer} from "quasar";
 import MenuDrawer from "~/components/header";
 import TaskForm from "~/components/forms";
-import {Task} from "~/services/models";
-import {TaskApi} from "~/services/task/api";
 
 
 export default defineComponent({
@@ -14,6 +15,14 @@ export default defineComponent({
 
         let taskId = route.params.id
         let task = ref<Task | null>(null)
+
+        let onClick = (t: Task) => {
+            TaskApi.update(t)
+                .then((res) => {
+                    task.value = Object.assign(new Task(), res.data)
+                })
+                .catch((e) => console.error(e))
+        }
 
         onMounted(() => {
             if (taskId) {
@@ -38,7 +47,10 @@ export default defineComponent({
                     <QPageContainer>
                         <h3>Update a Task</h3>
 
-                        <TaskForm task={task.value} />
+                        <TaskForm
+                            task={task.value}
+                            onClick={onClick}
+                        />
                     </QPageContainer>
                 }
             </QLayout>
