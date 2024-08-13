@@ -90,14 +90,14 @@ export default defineComponent({
                             label: 'Status',
                             field: 'status',
                             sortable: true,
-                            align: "center",
+                            align: "left",
                         },
                         {
                             name: 'action',
                             label: 'Action',
                             field: 'id',
                             sortable: false,
-                            align: "center",
+                            align: "left",
                         },
                     ]}
                     rows={filteredTasks.value}
