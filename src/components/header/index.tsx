@@ -22,8 +22,8 @@ export default defineComponent({
 
         return () => (
             <>
-                <QHeader elevated>
-                    <QToolbar>
+                <QHeader class={'header-container'}>
+                    <QToolbar class={'header-toolbar'}>
                         <QBtn onClick={onToggle} icon={"menu"} />
                     </QToolbar>
 

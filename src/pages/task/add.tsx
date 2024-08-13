@@ -1,22 +1,26 @@
 import {defineComponent} from 'vue';
+import {useRouter} from "vue-router";
 
-import {Task} from "~/services/models";
-import {TaskApi} from "~/services/task/api";
+import {useTaskStore} from "~/stores/task";
+import {Task} from "~/services/task/models";
+import type {TaskFragment} from "~/services/task/fragments";
 
 import {QLayout, QPageContainer} from "quasar";
 import MenuDrawer from "~/components/header";
 import TaskForm from "~/components/forms"
-import {useRouter} from "vue-router";
 
 
 export default defineComponent({
     setup() {
-        const route = useRouter()
+        let route = useRouter()
+        let taskStore = useTaskStore()
 
-        let onClick = async (t: Task) => {
-            TaskApi.add(t)
-                .then((res) => route.push(`/task/${res.data.id}`) )
-                .catch((e) => console.error(e))
+        let onClick = async (task: Task) => {
+            taskStore.addTask(task)
+                .then((res: void | (Task & TaskFragment)) => {
+                    let t = Object.assign(new Task(), res)
+                    route.push(`/task/${t.id}`)
+                })
         }
 
         return () => (

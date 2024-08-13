@@ -1,34 +1,20 @@
-import { defineComponent } from 'vue';
+import {defineComponent} from 'vue';
 
-import {Task} from "~/services/models";
-import {TaskApi} from "~/services/task/api";
+import {useTaskStore} from "~/stores/task";
 
 import "quasar/dist/quasar.css";
-import {
-    QBtn,
-    QCard,
-    QCardSection,
-    QLayout,
-    QPageContainer,
-} from "quasar";
+import {QLayout, QPageContainer} from "quasar";
 
 import MenuDrawer from '~/components/header';
 import TaskTable from '~/components/table';
-import {NuxtLink} from "#components";
 
 
 export default defineComponent({
     setup() {
-        let tasks = ref<Task[]>([])
+        let taskStore = useTaskStore()
 
         onMounted(() => {
-            TaskApi.list()
-                .then((res) => {
-                    tasks.value = res.data.map((fragment) => {
-                        return Object.assign(new Task(), fragment)
-                    })
-                })
-                .catch((e) => console.error(e))
+            taskStore.getAll()
         })
 
         return () => (
@@ -36,9 +22,11 @@ export default defineComponent({
                 <MenuDrawer />
 
                 <QPageContainer>
-                    <h3>Your task list</h3>
+                    <div class={"q-ml-xl q-mr-xl"}>
+                        <h3>Your task list</h3>
 
-                    <TaskTable tasks={tasks.value} />
+                        <TaskTable tasks={taskStore.tasks} />
+                    </div>
                 </QPageContainer>
             </QLayout>
         )

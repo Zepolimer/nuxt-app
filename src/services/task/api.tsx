@@ -1,6 +1,6 @@
 import {Api} from "~/services/api";
 
-import type {Task} from "~/services/models";
+import type {Task} from "~/services/task/models";
 import type {TaskListResponse, TaskResponse} from "~/services/task/responses";
 
 
@@ -62,8 +62,8 @@ export class TaskApi {
         );
     }
 
-    static delete(taskId: string): Promise<TaskListResponse> {
-        let url = this.API_URL_PK.replace(':id', taskId)
+    static delete(taskId: number): Promise<TaskListResponse> {
+        let url = this.API_URL_PK.replace(':id', taskId.toString())
 
         return Api.call(
             url,

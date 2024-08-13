@@ -1,7 +1,7 @@
 import {defineComponent} from 'vue';
-import { useRoute } from 'vue-router';
+import {useRoute} from 'vue-router';
 
-import {Task} from "~/services/models";
+import {Task} from "~/services/task/models";
 import {TaskApi} from "~/services/task/api";
 
 import {QLayout, QPageContainer} from "quasar";
@@ -30,7 +30,7 @@ export default defineComponent({
                     .then((res) => {
                         task.value = Object.assign(new Task(), res.data)
                     })
-                    .catch((e) => console.log(e))
+                    .catch((e) => console.error(e))
             }
         })
 
@@ -40,7 +40,9 @@ export default defineComponent({
 
                 {
                     !task.value &&
-                    <p>Loading ...</p>
+                    <QPageContainer>
+                        <p>Loading ...</p>
+                    </QPageContainer>
                 }
                 {
                     task.value &&

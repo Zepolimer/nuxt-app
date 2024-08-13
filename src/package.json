@@ -20,5 +20,8 @@
     "prisma": "^5.18.0",
     "quasar": "^2.16.8",
     "vue": "latest"
+  },
+  "devDependencies": {
+    "@nuxt/test-utils": "^3.14.1"
   }
 }

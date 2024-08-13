@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 export default defineEventHandler(async (event) => {
     let eventMethod = event.node.req.method
-    let { id } = event.context.params
+    let id = event.context.params!.id
 
     if (!id) {
         throw createError({
@@ -15,26 +15,24 @@ export default defineEventHandler(async (event) => {
     }
 
     if (eventMethod === 'GET') {
-        let task = await prisma.task.findUnique({
+        return prisma.task.findUnique({
             where: {
                 id: parseInt(id)
             }
-        })
-
-        if (!task) {
+        }).then((task) => {
+            return task
+        }).catch(() => {
             throw createError({
                 statusCode: 404,
                 statusMessage: 'Task not found'
             })
-        }
-
-        return task
+        })
     }
 
     if (eventMethod === 'PUT') {
         const body = await readBody(event)
 
-        let task = await prisma.task.update({
+        return prisma.task.update({
             where: {
                 id: parseInt(id)
             },
@@ -43,19 +41,31 @@ export default defineEventHandler(async (event) => {
                 description: body.description || null,
                 status: body.status || false,
             }
+        }).then((task) => {
+            return task
+        }).catch((e) => {
+            throw createError({
+                statusCode: 500,
+                statusMessage: `An error has occurred : ${e}`
+            })
         })
-
-        return task
     }
 
     if (eventMethod === 'DELETE') {
-        let task = await prisma.task.delete({
+        return prisma.task.delete({
             where: {
                 id: parseInt(id)
             }
+        }).then(() => {
+            return {
+                success: true
+            }
+        }).catch(() => {
+            throw createError({
+                statusCode: 404,
+                statusMessage: 'Task not found'
+            })
         })
-
-        return task
     }
 
     throw createError({

@@ -1,7 +1,7 @@
 import {defineComponent, ref} from 'vue';
 import type { PropType } from 'vue';
 
-import {Task} from "~/services/models";
+import {Task} from "~/services/task/models";
 
 import {QBtn, QCheckbox, QInput} from "quasar";
 
@@ -22,10 +22,12 @@ export default defineComponent({
     setup(props) {
         let task = ref<Task>(props.task)
 
+        let setTask = <T, K extends keyof T>(obj: T, key: K, value: T[K]) => {
+            return obj[key] = value
+        }
+
         let onUpdate = (field: keyof Task, value: string | number | null) => {
-            if (field in task.value) {
-                task.value[field] = value
-            }
+            setTask(task.value, field, value)
         };
 
         let onClick = () => {

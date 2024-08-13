@@ -4,7 +4,10 @@ import {defineNuxtConfig} from "nuxt/config";
 
 export default defineNuxtConfig({
     compatibilityDate: '2024-08-12',
-    modules: ['nuxt-quasar-ui'],
+    modules: [
+        '@pinia/nuxt',
+        'nuxt-quasar-ui',
+    ],
     quasar: {
         plugins: [
             'BottomSheet',
@@ -25,4 +28,5 @@ export default defineNuxtConfig({
             },
         },
     },
+    css: ['~/assets/css/global.css'],
 });
