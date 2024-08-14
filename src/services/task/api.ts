@@ -62,7 +62,7 @@ export class TaskApi {
         );
     }
 
-    static delete(taskId: number): Promise<TaskListResponse> {
+    static delete(taskId: number): Promise<TaskResponse> {
         let url = this.API_URL_PK.replace(':id', taskId.toString())
 
         return Api.call(

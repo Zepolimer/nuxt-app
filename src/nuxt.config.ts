@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     modules: [
         '@pinia/nuxt',
         'nuxt-quasar-ui',
+        '@nuxt/test-utils/module'
     ],
     quasar: {
         plugins: [
