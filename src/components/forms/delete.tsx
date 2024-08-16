@@ -18,8 +18,8 @@ export default defineComponent({
     setup(props) {
         let taskStore = useTaskStore()
 
-        let onClick = () => {
-            taskStore.deleteTask(props.taskId!)
+        let onClick = async () => {
+            await taskStore.deleteTask(props.taskId!)
         }
 
 
@@ -27,7 +27,7 @@ export default defineComponent({
             <QBtn
                 label={"Delete"}
                 color={"negative"}
-                onClick={() => onClick()}
+                onClick={onClick}
             />
         )
     }
